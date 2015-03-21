@@ -1,8 +1,8 @@
-<?php
-
-namespace malkusch\phpmock\phpunit;
+namespace {namespace};
 
 use malkusch\phpmock\functions\FunctionProvider;
+use malkusch\phpmock\phpunit\MockObjectProxy;
+use malkusch\phpmock\MockFunctionHelper;
 
 /**
  * Function provider which delegates to a mockable MockDelegate.
@@ -16,21 +16,21 @@ abstract class MockDelegateFunction implements FunctionProvider
 {
     
     /**
-     * The delegation method name.
-     */
-    const METHOD = "delegate";
-    
-    /**
      * A mocked function will redirect its call to this method.
      *
      * @return mixed Returns the function output.
      */
-    abstract protected function delegate();
+    abstract protected function delegate({signatureParameters});
 
     public function getCallable()
     {
-        return function () {
-            return call_user_func_array([$this, self::METHOD], func_get_args());
+        return function ({signatureParameters}) {
+            $arguments = [{bodyParameters}];
+            
+            $variadics = array_slice(func_get_args(), count($arguments));
+            $arguments = array_merge($arguments, $variadics);
+    
+            return call_user_func_array([$this, MockObjectProxy::METHOD], $arguments);
         };
     }
 }
