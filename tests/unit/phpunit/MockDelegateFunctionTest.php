@@ -21,14 +21,13 @@ class MockDelegateFunctionTest extends \PHPUnit_Framework_TestCase
     public function testDelegateReturnsMockResult()
     {
         $expected = 3;
-        $mock = $this->getMock('malkusch\phpmock\phpunit\MockDelegate');
+        $mock     = $this->getMockForAbstractClass('malkusch\phpmock\phpunit\MockDelegateFunction');
         
         $mock->expects($this->once())
-             ->method(MockDelegate::METHOD)
+             ->method(MockDelegateFunction::METHOD)
              ->willReturn($expected);
         
-        $provider = new MockDelegateFunction($mock);
-        $result = call_user_func($provider->getCallable());
+        $result = call_user_func($mock->getCallable());
         $this->assertEquals($expected, $result);
     }
 
@@ -39,13 +38,12 @@ class MockDelegateFunctionTest extends \PHPUnit_Framework_TestCase
      */
     public function testDelegateForwardsArguments()
     {
-        $mock = $this->getMock('malkusch\phpmock\phpunit\MockDelegate');
+        $mock = $this->getMockForAbstractClass('malkusch\phpmock\phpunit\MockDelegateFunction');
         
         $mock->expects($this->once())
-             ->method(MockDelegate::METHOD)
+             ->method(MockDelegateFunction::METHOD)
              ->with(1, 2);
         
-        $provider = new MockDelegateFunction($mock);
-        call_user_func($provider->getCallable(), 1, 2);
+        call_user_func($mock->getCallable(), 1, 2);
     }
 }

@@ -12,32 +12,25 @@ use malkusch\phpmock\functions\FunctionProvider;
  * @license http://www.wtfpl.net/txt/copying/ WTFPL
  * @internal
  */
-class MockDelegateFunction implements FunctionProvider
+abstract class MockDelegateFunction implements FunctionProvider
 {
     
     /**
-     * @var MockDelegate $delegate The mock.
+     * The delegation method name.
      */
-    private $delegate;
+    const METHOD = "delegate";
     
     /**
-     * Injects the mock.
+     * A mocked function will redirect its call to this method.
      *
-     * @param MockDelegate $delegate The mock.
+     * @return mixed Returns the function output.
      */
-    public function __construct(MockDelegate $delegate)
-    {
-        $this->delegate = $delegate;
-    }
+    abstract protected function delegate();
 
     public function getCallable()
     {
-        $delegate = $this->delegate;
-        return function () use ($delegate) {
-            return call_user_func_array(
-                [$delegate, MockDelegate::METHOD],
-                func_get_args()
-            );
+        return function () {
+            return call_user_func_array([$this, self::METHOD], func_get_args());
         };
     }
 }

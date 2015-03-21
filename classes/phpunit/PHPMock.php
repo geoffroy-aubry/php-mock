@@ -75,12 +75,12 @@ trait PHPMock
      */
     public function getFunctionMock($namespace, $name)
     {
-        $mock = $this->getMockBuilder('malkusch\phpmock\phpunit\MockDelegate')->getMock();
+        $mock = $this->getMockBuilder('malkusch\phpmock\phpunit\MockDelegateFunction')->getMockForAbstractClass();
         
         $functionMockBuilder = new MockBuilder();
         $functionMockBuilder->setNamespace($namespace)
                             ->setName($name)
-                            ->setFunctionProvider(new MockDelegateFunction($mock));
+                            ->setFunctionProvider($mock);
                 
         $functionMock = $functionMockBuilder->build();
         $functionMock->enable();

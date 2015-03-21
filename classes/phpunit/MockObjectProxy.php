@@ -53,7 +53,7 @@ class MockObjectProxy implements MockObject
 
     public function expects(\PHPUnit_Framework_MockObject_Matcher_Invocation $matcher)
     {
-        return $this->mockObject->expects($matcher)->method(MockDelegate::METHOD);
+        return $this->mockObject->expects($matcher)->method(MockDelegateFunction::METHOD);
     }
     
     /**
